@@ -10,10 +10,12 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	"github.com/nomplex/confessional/internal/models"
 )
 
 type application struct {
-	logger *slog.Logger
+	logger      *slog.Logger
+	confessions *models.ConfessionModel
 }
 
 func main() {
@@ -38,33 +40,18 @@ func main() {
 
 	if *fresh_database {
 		// Setup database
-		seedFile, err := os.ReadFile("./seed.sql")
+		initDB(db)
 		if err != nil {
 			logger.Error(err.Error())
 			os.Exit(1)
-		}
-
-		stmts := strings.SplitSeq(string(seedFile), ";")
-
-		for stmt := range stmts {
-
-			stmt = strings.TrimSpace(stmt)
-			if stmt == "" {
-				continue
-			}
-
-			_, err = db.Exec(stmt)
-			if err != nil {
-				logger.Error(err.Error())
-				os.Exit(1)
-			}
 		}
 
 		logger.Info("Database Reset")
 	}
 
 	app := &application{
-		logger: logger,
+		logger:      logger,
+		confessions: &models.ConfessionModel{DB: db},
 	}
 	srv := &http.Server{
 		Addr:    ":" + *port,
@@ -91,4 +78,28 @@ func openDB(dsn string) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func initDB(db *sql.DB) error {
+	seedFile, err := os.ReadFile("./seed.sql")
+	if err != nil {
+		return err
+	}
+
+	stmts := strings.SplitSeq(string(seedFile), ";")
+
+	for stmt := range stmts {
+
+		stmt = strings.TrimSpace(stmt)
+		if stmt == "" {
+			continue
+		}
+
+		_, err = db.Exec(stmt)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
