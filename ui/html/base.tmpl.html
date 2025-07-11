@@ -1,0 +1,46 @@
+{{define "base"}}
+<html lang="en" class="bg-[#121212] text-[#e0e0e0]">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{template "title" .}} - Confessional</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manufacturing+Consent&display=swap" rel="stylesheet">
+	<link href="/static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<header>
+		{{block "header" .}}
+		<h2 class="text-9xl text-center mt-12">
+			<a href="/">
+				Confessional
+				<span class="text-3xl text-center block">Share your confessions and view other's</span>
+			</a>
+		</h2>
+		{{end}}
+		{{template "nav" .}}
+	</header>
+	<main class="mt-24">
+		{{template "main" .}}
+		<!-- <section> -->
+		<!-- 	<h2 class="text-6xl text-center">Latest Confessions</h2> -->
+		<!-- 	<div class="grid grid-cols-3 gap-4 mt-6"> -->
+		<!-- 		<div class="w-full h-24 bg-blue-500"></div> -->
+		<!-- 		<div class="w-full h-24 bg-blue-500"></div> -->
+		<!-- 		<div class="w-full h-24 bg-blue-500"></div> -->
+		<!-- 	</div> -->
+		<!-- </section> -->
+
+		<!-- <nav> -->
+		<!-- 	<ul> -->
+		<!-- 		<li><a></a></li> -->
+		<!-- 	</ul> -->
+		<!-- </nav> -->
+	</main>
+</body>
+
+</html>
+{{end}}

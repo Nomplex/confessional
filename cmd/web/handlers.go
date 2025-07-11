@@ -6,7 +6,8 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Home Page")
+	data := &templateData{}
+	app.render(w, r, http.StatusOK, "home.tmpl.html", *data)
 }
 
 func (app *application) confess(w http.ResponseWriter, r *http.Request) {

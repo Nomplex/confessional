@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log/slog"
 	"net/http"
 	"os"
@@ -14,8 +15,9 @@ import (
 )
 
 type application struct {
-	logger      *slog.Logger
-	confessions *models.ConfessionModel
+	logger        *slog.Logger
+	confessions   *models.ConfessionModel
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -39,7 +41,6 @@ func main() {
 	}
 
 	if *fresh_database {
-		// Setup database
 		initDB(db)
 		if err != nil {
 			logger.Error(err.Error())
@@ -49,9 +50,16 @@ func main() {
 		logger.Info("Database Reset")
 	}
 
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		logger.Error(err.Error())
+		os.Exit(1)
+	}
+
 	app := &application{
-		logger:      logger,
-		confessions: &models.ConfessionModel{DB: db},
+		logger:        logger,
+		confessions:   &models.ConfessionModel{DB: db},
+		templateCache: templateCache,
 	}
 	srv := &http.Server{
 		Addr:    ":" + *port,
