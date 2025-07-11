@@ -6,7 +6,13 @@ import (
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	data := &templateData{}
+	confessions, err := app.confessions.Latest()
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+
+	data := &templateData{confessions}
 	app.render(w, r, http.StatusOK, "home.tmpl.html", *data)
 }
 

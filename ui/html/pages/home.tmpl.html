@@ -13,9 +13,12 @@
 <section>
 	<h2 class="text-6xl text-center">Latest Confessions</h2>
 	<div class="grid grid-cols-3 gap-4 mt-6">
-		<div class="w-full h-24 bg-blue-500"></div>
-		<div class="w-full h-24 bg-blue-500"></div>
-		<div class="w-full h-24 bg-blue-500"></div>
+		{{if .Confessions}}
+		{{range .Confessions}}
+		<div class="w-full h-24 bg-blue-500">{{.Content}}</div>
+		{{end}}
+		{{else}}
+		{{end}}
 	</div>
 </section>
 {{end}}

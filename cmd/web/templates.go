@@ -3,9 +3,13 @@ package main
 import (
 	"html/template"
 	"path/filepath"
+
+	"github.com/nomplex/confessional/internal/models"
 )
 
-type templateData struct{}
+type templateData struct {
+	Confessions []models.Confession
+}
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
