@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"path/filepath"
 
@@ -9,6 +10,14 @@ import (
 
 type templateData struct {
 	Confessions []models.Confession
+}
+
+func buildConfessionLink(id int) string {
+	return fmt.Sprintf("/confession/%d", id)
+}
+
+var functions = template.FuncMap{
+	"buildConfessionLink": buildConfessionLink,
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {
@@ -25,8 +34,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		// Gives us the file name
 		name := filepath.Base(page)
 
-		// In the future if I need template functions I can edit this
-		ts, err := template.New(name).ParseFiles("./ui/html/base.tmpl.html")
+		ts, err := template.New(name).Funcs(functions).ParseFiles("./ui/html/base.tmpl.html")
 		if err != nil {
 			return nil, err
 		}

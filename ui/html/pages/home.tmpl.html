@@ -15,7 +15,11 @@
 	<div class="grid grid-cols-3 gap-4 mt-6">
 		{{if .Confessions}}
 		{{range .Confessions}}
-		<div class="w-full h-24 bg-blue-500">{{.Content}}</div>
+		<a href={{.Id | buildConfessionLink}}>
+			<div class="confession">
+				<p>{{.Content}}</p>
+			</div>
+		</a>
 		{{end}}
 		{{else}}
 		{{end}}

@@ -17,11 +17,12 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) confess(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "New Confession")
+	data := &templateData{}
+	app.render(w, r, http.StatusOK, "confess.tmpl.html", *data)
 }
 
 func (app *application) confessPost(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Post New Confession")
+	app.logger.Info("New Post Submission Success")
 }
 
 func (app *application) confessionViewId(w http.ResponseWriter, r *http.Request) {

@@ -1,0 +1,19 @@
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+<section>
+	<h1 class="text-6xl text-center">Confess Your Sin</h1>
+	<form class="form" action="/confess" method="POST">
+		<div class="form-group">
+			<label class="">Title</label>
+			<input type="text" maxlength="25" />
+		</div>
+		<div class="form-group">
+			<label>Content</label>
+			<textarea rows="12" maxlength="280"></textarea>
+		</div>
+		<input type="submit" class="button text-white text-2xl" value="Confess Sin" />
+	</form>
+</section>
+</div>
+{{end}}
