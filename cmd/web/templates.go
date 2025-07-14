@@ -10,6 +10,7 @@ import (
 
 type templateData struct {
 	Confessions []models.Confession
+	Form        any
 }
 
 func buildConfessionLink(id int) string {

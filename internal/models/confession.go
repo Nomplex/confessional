@@ -7,6 +7,7 @@ import (
 
 type Confession struct {
 	Id      int
+	Title   string
 	Content string
 	Created time.Time
 }
@@ -15,9 +16,26 @@ type ConfessionModel struct {
 	DB *sql.DB
 }
 
+func (c *ConfessionModel) Insert(title, content string) (int, error) {
+	stmt := `INSERT INTO confessions(title, content, created)
+	VALUES(?, ?, UTC_TIMESTAMP())`
+
+	result, err := c.DB.Exec(stmt, title, content)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
+}
+
 func (c *ConfessionModel) Latest() ([]Confession, error) {
 	stmt := `SELECT id, content, created FROM confessions 
-	ORDER BY created LIMIT 3`
+	ORDER BY created LIMIT 9`
 
 	rows, err := c.DB.Query(stmt)
 	if err != nil {
